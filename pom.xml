@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.company.security.csp</groupId>
+  <artifactId>java-csp</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>parent</module>
+    <module>java-csp-provider-impl</module>
+    <module>java-csp-native</module>
+    <module>java-csp-provider</module>
+    <module>java-csp-xmlsec-jsr105</module>
+    <module>java-csp-xmlsec-santuario</module>
+    <module>java-csp-wss4j</module>
+  </modules>
+</project>

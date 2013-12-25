@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.company.security.csp</groupId>
+    <artifactId>java-csp-native</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>java-csp-platform</artifactId>
+  <name>Java CSP Security Provider Native amd64 Windows</name>
+  <packaging>dll</packaging>
+
+  <properties>
+    <csp.path>C:/Program Files/Crypto Pro/SDK</csp.path>
+    <include.params>-I"${csp.path}/include" -I${build.path}/native</include.params>
+    <commonCompilerOptions>${include.params} /O1 /Gr /LD /TC</commonCompilerOptions>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <compilerProvider>msvc</compilerProvider>
+          <envFactoryName>org.codehaus.mojo.natives.msvc.MSVC2008x86EnvFactory</envFactoryName>
+          <javahOS>win32</javahOS>
+
+          <compilerStartOptions>
+            <compilerStartOption>${commonCompilerOptions}</compilerStartOption>
+          </compilerStartOptions>
+
+          <linkerStartOptions>
+            <linkerStartOption>/OPT:NOWIN98 /DLL /MACHINE:X86</linkerStartOption>
+            <linkerStartOption>-L"${csp.path}/lib"</linkerStartOption>
+          </linkerStartOptions>
+          <linkerEndOptions>
+            <linkerEndOption>user32.lib advapi32.lib oldnames.lib kernel32.lib crypt32.lib</linkerEndOption>
+          </linkerEndOptions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>java-csp-provider-impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+  </dependencies>
+</project>

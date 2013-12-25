@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.company.security.csp</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../parent</relativePath>
+  </parent>
+
+  <artifactId>java-csp-native</artifactId>
+  <name>Java CSP Native platform</name>
+  <packaging>pom</packaging>
+
+  <properties>
+    <java.os.path>${java.home}</java.os.path>    
+    <jdkIncludePath>${java.os.path}/../include</jdkIncludePath>
+    <javaOS></javaOS>
+    <javaOS.arch></javaOS.arch>
+  </properties>
+
+  <modules>
+    <module>java-csp-platform-${javaOS.arch}-${javaOS}</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>native-maven-plugin</artifactId>
+          <version>1.0-alpha-7</version>
+          <extensions>true</extensions>
+          <configuration>
+            <javahClassNames>
+              <javahClassName>org.company.security.csp.NativeCrypto</javahClassName>
+            </javahClassNames>
+
+            <sources>
+              <source>
+                <directory>../src/main/native/c/csp</directory>
+                <includes>
+                  <include>**/*.c</include>
+                </includes>
+              </source>
+            </sources>
+
+            <classifier>${javaOS.arch}-${javaOS}</classifier>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>amd64-Linux</id>
+      <activation>
+        <os>
+          <name>Linux</name>
+          <arch>amd64</arch>
+        </os>
+      </activation>
+      <properties>
+        <javaOS>linux</javaOS>
+        <javaOS.arch>amd64</javaOS.arch>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>x86-Linux</id>
+      <activation>
+        <os>
+          <name>Linux</name>
+          <arch>i386</arch>
+        </os>
+      </activation>
+      <properties>
+        <javaOS>linux</javaOS>
+        <javaOS.arch>x86</javaOS.arch>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>amd64-Windows</id>
+      <activation>
+        <os>
+          <family>Windows</family>
+          <arch>amd64</arch>
+        </os>
+      </activation>
+      <properties>
+        <javaOS>windows</javaOS>
+        <javaOS.arch>amd64</javaOS.arch>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>x86-Windows</id>
+      <activation>
+        <os>
+          <family>Windows</family>
+          <arch>x86</arch>
+        </os>
+      </activation>
+      <properties>
+        <javaOS>windows</javaOS>
+        <javaOS.arch>x86</javaOS.arch>
+      </properties>
+    </profile>
+  </profiles>
+</project>
